@@ -14,6 +14,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.activity_main);
     }
+    public void vergaleria(View view){
+        AlertDialog.Builder mensaje;
+        mensaje= new AlertDialog.Builder (this);
+        mensaje.setTitle ("opciones");
+        String [] misopciones={"edad", "genero", "barba", "sonrisa"};
+        boolean[] preseleccion={true, true, false, false, false};
+        mensaje.setMultiChoiceItems (misopciones, preseleccion, (DialogInterface.OnMultiChoiceClickListener) escuchador);
+        mensaje.setPositiveButton ("Aceptar", otroescuchador);
+        mensaje.create ();
+        mensaje.show ();
+    }
     public void sacarfoto(View v){
         AlertDialog.Builder mensaje;
         mensaje= new AlertDialog.Builder (this);

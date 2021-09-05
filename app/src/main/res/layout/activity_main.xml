@@ -22,7 +22,8 @@ android:onClick="sacarfoto"
         android:layout_height="wrap_content"
         android:textSize="20dp"
         android:text="elegir de galeria"
-        android:layout_below="@+id/boton1">
+        android:layout_below="@+id/boton1"
+        android:onClick="vergaleria">
 
     </Button>
 </RelativeLayout>
