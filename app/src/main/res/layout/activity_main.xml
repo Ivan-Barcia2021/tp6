@@ -3,27 +3,21 @@
     android:layout_width="match_parent"
     android:padding="10dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <Button
-        android:id="@+id/boton1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="hola"
+    android:textSize="30dp"
+    android:id="@+id/mitexto">
 
-        android:textSize="20dp"
-        android:text="sacar foto"
-android:onClick="sacarfoto"
-        >
+</TextView>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/miboton"
+        android:layout_below="@+id/mitexto">
 
     </Button>
 
-    <Button
 
-        android:id="@+id/boton2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:text="elegir de galeria"
-        android:layout_below="@+id/boton1"
-        android:onClick="vergaleria">
-
-    </Button>
 </RelativeLayout>
