@@ -15,9 +15,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/miboton"
-        android:layout_below="@+id/mitexto">
+        android:text="sacar foto"
+        android:layout_below="@+id/mitexto"
+        android:onClick="Presionatomarfoto"
+        >
 
     </Button>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/boton"
+        android:text="sacar foto"
+        android:layout_below="@+id/mitexto"
+        android:onClick="presionaElegir"
+        >
 
+    </Button>
+<ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+android:layout_below="@+id/boton"
+    android:id="@+id/imagen">
 
+</ImageView>
 </RelativeLayout>
