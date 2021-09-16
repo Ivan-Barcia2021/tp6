@@ -15,6 +15,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -128,7 +131,27 @@ public void procesarimagenobtenida(final Bitmap fotorecibida){
     class procesarimagen extends AsyncTask<InputStream, String, Face[]>{
 @Override
        protected Face[] doInBackground(InputStream... fotorecibida){
-return null;
+publishProgress ("Deectando caras...");
+Face[] resultado=null;
+try{
+    FaceServiceClient.FaceAttributeType[] atributos;
+    atributos= new FaceServiceClient.FaceAttributeType[]{
+            FaceServiceClient.FaceAttributeType.Age,
+    FaceServiceClient.FaceAttributeType.Glasses,
+    FaceServiceClient.FaceAttributeType.Smile,
+    FaceServiceClient.FaceAttributeType.FacialHair,
+    FaceServiceClient.FaceAttributeType.Gender
+    };
+    resultado=servicioprocesamiento.detect(fotorecibida[0], true, false, atributos);
+
+}
+catch (Exception error){
+
+}
+
+
+
+    return resultado;
 }
 @Override
         protected void onPreExecute(){
@@ -143,9 +166,62 @@ return null;
 
 }
 @Override protected void onPostExecute(Face[] resultado){
+super.onPostExecute (resultado);
+dialogo.dismiss ();
+if(resultado== null){
+    textoresutado.setText ("Error de procesamiento");
 
 }
+else {
+    if(resultado.length>0){
+        recuadrarcaras(imagen, resultado);
+        procesarResul(resultado);
     }
+    else{
+        textoresutado.setText ("no se detecto cara ");
+    }
+}
+}
+void recuadrarcaras(Bitmap imagenoriginal, Face[]caras_recuadrar){
+    Bitmap imagendibujar;
+    imagendibujar=imagenoriginal.copy (Bitmap.Config.ARGB_8888, true);
+    Canvas Lienzo;
+    Lienzo= new Canvas (imagendibujar);
+    Paint pincel;
+    pincel= new Paint ();
+    pincel.setAntiAlias (true);
+    pincel.setStyle (Paint.Style.STROKE);
+    pincel.setColor (Color.RED);
+    for(Face unacara: caras_recuadrar){
+        FaceRectangle rectangulo;
+        rectangulo=unacara.faceRectangle;
+        Lienzo.drawRect (rectangulo.left, rectangulo.top, rectangulo.left+rectangulo.width, rectangulo.top+rectangulo.height);
+        imagen.setImageBitmap (imagendibujar);
+    }
+}
+        void procesarResul(Face[] caras){
+int cantidadhombres, cantidadmujeres;
+cantidadhombres=preferencias.getInt("cantidadhombres", 0);
+            cantidadmujeres=preferencias.getInt("cantidamujeres", 0);
+            String mensaje="";
+            for(int punterocara=0; punterocara<caras.length; punterocara++){
+                mensaje+="Edad:"+caras[punterocara].faceAttributes.age;
+                mensaje+="Sonrisa:"+caras[punterocara].faceAttributes.smile;
+                mensaje+="Barba:"+caras[punterocara].faceAttributes.facialHair.beard;
+                mensaje+="Genero:"+caras[punterocara].faceAttributes.gender;
+                mensaje+="Anteojos:"+caras[punterocara].faceAttributes.glasses;
+
+                if(caras[punterocara].faceAttributes.gender.equals ("male")){
+                    cantidadhombres++;
+                }
+                else {
+                    cantidadmujeres++;
+                }
+            }
+
+        }
+    }
+
     procesarimagen mitarea= new procesarimagen ();
     mitarea.execute (streamentrada);
 
